@@ -14,12 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'brandID',
         as: 'products'
       });
+      Brand.hasMany(models.Category,{
+        foreignKey: "category_id",
+        as:  "category"
+      })
     }
   }
   Brand.init({
     name: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
-    description: DataTypes.TEXT
+    description: DataTypes.TEXT,
+    category_id: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Brand',

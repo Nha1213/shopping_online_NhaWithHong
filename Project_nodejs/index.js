@@ -17,6 +17,9 @@ db.sequelize.sync().then(() => {
   console.error("Error syncing database:", err);
 });
 
+const {CategoryRoute} = require("./routers/category.route")
+CategoryRoute(app)
+
 
 
 // Start server

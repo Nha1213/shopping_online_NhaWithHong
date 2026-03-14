@@ -1,9 +1,8 @@
 -- ============================
 -- CREATE DATABASE
 -- ============================
-CREATE DATABASE "e_commerce_db";
-USE e_commerce_db;
-
+CREATE DATABASE IF NOT EXISTS `e_commerce_db`;
+USE `e_commerce_db`;
 
 -- ============================
 -- 1. tb_admin
@@ -15,7 +14,6 @@ CREATE TABLE tb_admin (
     password VARCHAR(255) NOT NULL
 );
 
-
 -- ============================
 -- 2. tb_customer
 -- ============================
@@ -24,10 +22,9 @@ CREATE TABLE tb_customer (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    image varchar(250),
+    image VARCHAR(250),
     phone VARCHAR(20)
 );
-
 
 -- ============================
 -- 3. tb_category
@@ -35,17 +32,16 @@ CREATE TABLE tb_customer (
 CREATE TABLE tb_category (
     categoryID INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    status boolean default 1,
+    status TINYINT(1) DEFAULT 1,
     description TEXT
 );
 
 CREATE TABLE tb_brand(
-    brandID int auto_increment primary key,
-    name varchar(100) not null,
-    status boolean default 1,
-    description text
+    brandID INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    status TINYINT(1) DEFAULT 1,
+    description TEXT
 );
-
 
 -- ============================
 -- 4. tb_product
@@ -57,7 +53,7 @@ CREATE TABLE tb_product (
     price DECIMAL(10,2) NOT NULL,
     stockQuantity INT NOT NULL DEFAULT 0,
     categoryID INT,
-    brandID int,
+    brandID INT,
     FOREIGN KEY (categoryID)
         REFERENCES tb_category(categoryID)
         ON DELETE SET NULL,
@@ -65,7 +61,6 @@ CREATE TABLE tb_product (
         REFERENCES tb_brand(brandID)
         ON DELETE SET NULL
 );
-
 
 -- ============================
 -- 5. tb_address
@@ -83,18 +78,16 @@ CREATE TABLE tb_address (
         ON DELETE CASCADE
 );
 
-
 -- ============================
 -- 6. tb_cart
 -- ============================
 CREATE TABLE tb_cart (
     cartID INT AUTO_INCREMENT PRIMARY KEY,
-    customerID INT UNIQUE,
+    customerID INT,
     FOREIGN KEY (customerID)
         REFERENCES tb_customer(customerID)
         ON DELETE SET NULL
 );
-
 
 -- ============================
 -- 7. tb_order
@@ -109,7 +102,6 @@ CREATE TABLE tb_order (
         REFERENCES tb_customer(customerID)
         ON DELETE CASCADE
 );
-
 
 -- ============================
 -- 8. tb_order_item
@@ -128,7 +120,6 @@ CREATE TABLE tb_order_item (
         ON DELETE CASCADE
 );
 
-
 -- ============================
 -- 9. tb_payment
 -- ============================
@@ -143,7 +134,6 @@ CREATE TABLE tb_payment (
         REFERENCES tb_order(orderID)
         ON DELETE CASCADE
 );
-
 
 -- ============================
 -- 10. tb_review
@@ -162,3 +152,16 @@ CREATE TABLE tb_review (
         REFERENCES tb_product(productID)
         ON DELETE CASCADE
 );
+
+-- ============================
+-- tbl_user
+-- ============================
+DROP TABLE IF EXISTS `tbl_user`;
+CREATE TABLE `tbl_user` (
+  `user_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(250) NOT NULL,
+  `email` VARCHAR(200) NOT NULL,
+  `password` TEXT NOT NULL,
+  `photo` VARCHAR(255),
+  `status` VARCHAR(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
